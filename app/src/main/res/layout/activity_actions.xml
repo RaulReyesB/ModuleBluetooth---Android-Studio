@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#FAF7F5"
+    android:gravity="center">
+
+    <!-- Título -->
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ACTIONS"
+        android:textColor="#8C4F40"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Botón para enviar comando 1 -->
+    <Button
+        android:id="@+id/buttonSend1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enviar Comando 1"
+        android:backgroundTint="#E8D9D3"
+        android:textColor="#8C4F40"
+        android:padding="12dp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Botón para enviar comando 2 -->
+    <Button
+        android:id="@+id/buttonSend2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enviar Comando 2"
+        android:backgroundTint="#E8D9D3"
+        android:textColor="#8C4F40"
+        android:padding="12dp"
+        android:layout_marginBottom="16dp" />
+</LinearLayout>

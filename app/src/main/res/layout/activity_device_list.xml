@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAEAE8">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Título -->
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ACTIONS"
+            android:textColor="#8C4F40"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- Subtítulo -->
+        <TextView
+            android:id="@+id/tv_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LIGHTS AND SENSORS"
+            android:textColor="#8C4F40"
+            android:textSize="18sp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Botón para buscar dispositivos -->
+        <Button
+            android:id="@+id/searchButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Buscar dispositivos"
+            android:backgroundTint="#E8D9D3"
+            android:textColor="#8C4F40"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Lista de dispositivos -->
+        <ListView
+            android:id="@+id/lv_devices"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginBottom="16dp"
+            android:textColor="#8C4F40"/>
+
+        <!-- TextView para mostrar datos del sensor -->
+        <TextView
+            android:id="@+id/tv_sensor_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sensor Data: "
+            android:textColor="#8C4F40"
+            android:textSize="16sp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Sección Cochera -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="COCHERA"
+            android:textColor="#8C4F40"
+            android:textSize="18sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"/>
+
+        <GridLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:layout_gravity="center">
+
+            <!-- Botones para cochera -->
+            <Button
+                android:id="@+id/btn_up"
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:text="LED Apagar"
+                android:backgroundTint="#E8D9D3"
+                android:textColor="#8C4F40"
+                android:layout_margin="8dp"/>
+
+            <Button
+                android:id="@+id/btn_down"
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:text="LED Encender"
+                android:backgroundTint="#E8D9D3"
+                android:textColor="#8C4F40"
+                android:layout_margin="8dp"/>
+
+            <Button
+                android:id="@+id/btn_left"
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:text="Servo 180°"
+                android:backgroundTint="#E8D9D3"
+                android:textColor="#8C4F40"
+                android:layout_margin="8dp"/>
+
+            <Button
+                android:id="@+id/btn_right"
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:text="Servo 0°"
+                android:backgroundTint="#E8D9D3"
+                android:textColor="#8C4F40"
+                android:layout_margin="8dp"/>
+
+            <Button
+                android:id="@+id/btn_stop"
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:text="Detener"
+                android:backgroundTint="#E8D9D3"
+                android:textColor="#8C4F40"
+                android:layout_margin="8dp"/>
+
+            <Button
+                android:id="@+id/btn_read_sensor"
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:text="Leer Sensor"
+                android:backgroundTint="#E8D9D3"
+                android:textColor="#8C4F40"
+                android:layout_margin="8dp"/>
+
+        </GridLayout>
+
+        <!-- Sección Dormitorio -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DORMITORIO"
+            android:textColor="#8C4F40"
+            android:textSize="18sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"/>
+
+        <GridLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:layout_gravity="center">
+
+            <!-- Botones para dormitorio -->
+            <Button
+                android:id="@+id/btnBedroomLightOff"
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:text="LED Apagar"
+                android:backgroundTint="#E8D9D3"
+                android:textColor="#8C4F40"
+                android:layout_margin="8dp"/>
+
+            <Button
+                android:id="@+id/btnBedroomLightOn"
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:text="LED Encender"
+                android:backgroundTint="#E8D9D3"
+                android:textColor="#8C4F40"
+                android:layout_margin="8dp"/>
+
+            <Button
+                android:id="@+id/btnBedroomServoOpen"
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:text="Servo 180°"
+                android:backgroundTint="#E8D9D3"
+                android:textColor="#8C4F40"
+                android:layout_margin="8dp"/>
+
+            <Button
+                android:id="@+id/btnBedroomServoClose"
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:text="Servo 0°"
+                android:backgroundTint="#E8D9D3"
+                android:textColor="#8C4F40"
+                android:layout_margin="8dp"/>
+
+            <Button
+                android:id="@+id/btn_bedroom_stop"
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:text="Detener"
+                android:backgroundTint="#E8D9D3"
+                android:textColor="#8C4F40"
+                android:layout_margin="8dp"/>
+
+            <Button
+                android:id="@+id/btn_bedroom_read_sensor"
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:text="Leer Sensor"
+                android:backgroundTint="#E8D9D3"
+                android:textColor="#8C4F40"
+                android:layout_margin="8dp"/>
+
+        </GridLayout>
+
+    </LinearLayout>
+</ScrollView>
