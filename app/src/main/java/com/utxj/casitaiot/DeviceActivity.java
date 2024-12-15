@@ -21,7 +21,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 public class DeviceActivity extends AppCompatActivity {
 
@@ -30,12 +29,14 @@ public class DeviceActivity extends AppCompatActivity {
     private ArrayList<String> deviceList = new ArrayList<>();
     private ArrayAdapter<String> adapter;
     private BroadcastReceiver receiver;
-    private Communication communication; // Comunicación simplificada
+    private Communication communication;
 
-    private int mensaje = 0; // Variable global para almacenar el mensaje
-    private Button btnUp, btnDown, btnLeft, btnRight, btnStop, btnReadSensor;
-    private Button btnBedroomLightOff, btnBedroomLightOn, btnBedroomServoOpen, btnBedroomServoClose;
-    private TextView sensorDataTextView; // TextView para mostrar datos del sensor
+    private int mensaje = 0;
+    private Button btnCocheraOff, btnCocheraOn, btnCocheraOpen, btnCocheraClose, btnCocheraReadSensor;
+    private Button btnDormitorioOff, btnDormitorioOn, btnDormitorioOpen, btnDormitorioClose;
+    private Button btnBanoOn, btnBanoOff;
+    private Button btnDormitorio2Off, btnDormitorio2On, btnDormitorio2Open, btnDormitorio2Close;
+    private TextView sensorDataCocheraTextView, sensorDataPatioTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,21 +46,32 @@ public class DeviceActivity extends AppCompatActivity {
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         ListView devicesListView = findViewById(R.id.lv_devices);
 
-        // Botones para enviar comandos
-        btnUp = findViewById(R.id.btn_up);
-        btnDown = findViewById(R.id.btn_down);
-        btnLeft = findViewById(R.id.btn_left);
-        btnRight = findViewById(R.id.btn_right);
-        btnStop = findViewById(R.id.btn_stop);
-        btnReadSensor = findViewById(R.id.btn_read_sensor);
-        // Botones para enviar comandos
-        btnBedroomLightOff = findViewById(R.id.btnBedroomLightOff);
-        btnBedroomLightOn = findViewById(R.id.btnBedroomLightOn);
-        btnBedroomServoOpen = findViewById(R.id.btnBedroomServoOpen);
-        btnBedroomServoClose = findViewById(R.id.btnBedroomServoClose);
+        // Inicializar botones de cochera
+        btnCocheraOff = findViewById(R.id.btn_cochera_off);
+        btnCocheraOn = findViewById(R.id.btn_cochera_on);
+        btnCocheraOpen = findViewById(R.id.btn_cochera_open);
+        btnCocheraClose = findViewById(R.id.btn_cochera_close);
+        btnCocheraReadSensor = findViewById(R.id.btn_cochera_read_sensor);
 
-        // TextView para mostrar datos del sensor
-        sensorDataTextView = findViewById(R.id.tv_sensor_data);
+        // Inicializar botones de dormitorio
+        btnDormitorioOff = findViewById(R.id.btn_dormitorio_off);
+        btnDormitorioOn = findViewById(R.id.btn_dormitorio_on);
+        btnDormitorioOpen = findViewById(R.id.btn_dormitorio_open);
+        btnDormitorioClose = findViewById(R.id.btn_dormitorio_close);
+
+        // Inicializar botones de baño
+        btnBanoOn = findViewById(R.id.btn_bano_on);
+        btnBanoOff = findViewById(R.id.btn_bano_off);
+
+        // Inicializar botones de dormitorio 2
+        btnDormitorio2Off = findViewById(R.id.btn_dormitorio2_off);
+        btnDormitorio2On = findViewById(R.id.btn_dormitorio2_on);
+        btnDormitorio2Open = findViewById(R.id.btn_dormitorio2_open);
+        btnDormitorio2Close = findViewById(R.id.btn_dormitorio2_close);
+
+        // Inicializar TextViews para mostrar datos de sensores
+        sensorDataCocheraTextView = findViewById(R.id.tv_cochera_sensor_data);
+        sensorDataPatioTextView = findViewById(R.id.tv_patio_sensor_data);
 
         // Configurar adaptador para la lista
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, deviceList);
@@ -88,60 +100,40 @@ public class DeviceActivity extends AppCompatActivity {
 
             if (communication.isConnected()) {
                 Toast.makeText(this, "Conectado a: " + deviceName, Toast.LENGTH_SHORT).show();
-                listenForSensorData(); // Escuchar datos del sensor
+                listenForSensorData();
             } else {
                 Toast.makeText(this, "Error al conectar con: " + deviceName, Toast.LENGTH_SHORT).show();
             }
         });
 
-        // Configurar botones para enviar comandos
-        btnUp.setOnClickListener(v -> {
-            mensaje = 1; // Comando para LED apagado
-            enviarDatos();
-        });
-        btnDown.setOnClickListener(v -> {
-            mensaje = 2; // Comando para LED encendido
-            enviarDatos();
-        });
-        btnLeft.setOnClickListener(v -> {
-            mensaje = 4; // Comando para mover servo a 180°
-            enviarDatos();
-        });
-        btnRight.setOnClickListener(v -> {
-            mensaje = 3; // Comando para mover servo a 0°
-            enviarDatos();
-        });
-        btnStop.setOnClickListener(v -> {
-            mensaje = 0; // Comando para detener
-            enviarDatos();
-        });
+        // Configurar botones de cochera
+        btnCocheraOff.setOnClickListener(v -> enviarMensaje(1)); // Apagar foco cochera
+        btnCocheraOn.setOnClickListener(v -> enviarMensaje(2)); // Encender foco cochera
+        btnCocheraOpen.setOnClickListener(v -> enviarMensaje(3)); // Abrir puerta cochera
+        btnCocheraClose.setOnClickListener(v -> enviarMensaje(4)); // Cerrar puerta cochera
+        btnCocheraReadSensor.setOnClickListener(v -> enviarMensaje(5)); // Leer sensor cochera
 
-        btnBedroomLightOff.setOnClickListener(v ->{
-            mensaje = 5;
-            enviarDatos();
-        });
+        // Configurar botones de dormitorio
+        btnDormitorioOff.setOnClickListener(v -> enviarMensaje(6)); // Apagar foco dormitorio
+        btnDormitorioOn.setOnClickListener(v -> enviarMensaje(7)); // Encender foco dormitorio
+        btnDormitorioOpen.setOnClickListener(v -> enviarMensaje(8)); // Abrir puerta dormitorio
+        btnDormitorioClose.setOnClickListener(v -> enviarMensaje(9)); // Cerrar puerta dormitorio
 
-        btnBedroomLightOn.setOnClickListener(v ->{
-            mensaje = 6;
-            enviarDatos();
-        });
+        // Configurar botones de baño
+        btnBanoOff.setOnClickListener(v -> enviarMensaje(10)); // Apagar foco baño
+        btnBanoOn.setOnClickListener(v -> enviarMensaje(11)); // Encender foco baño
 
-        btnBedroomServoClose.setOnClickListener(v ->{
-            mensaje = 7;
-            enviarDatos();
-        });
-
-
-        // Botón para leer distancia del sensor
-        btnReadSensor.setOnClickListener(v -> {
-            mensaje = 5; // Comando para leer el sensor
-            enviarDatos();
-        });
+        // Configurar botones de dormitorio 2
+        btnDormitorio2Off.setOnClickListener(v -> enviarMensaje(12)); // Apagar foco dormitorio 2
+        btnDormitorio2On.setOnClickListener(v -> enviarMensaje(13)); // Encender foco dormitorio 2
+        btnDormitorio2Open.setOnClickListener(v -> enviarMensaje(14)); // Abrir puerta dormitorio 2
+        btnDormitorio2Close.setOnClickListener(v -> enviarMensaje(15)); // Cerrar puerta dormitorio 2
     }
 
-    private void enviarDatos() {
+    private void enviarMensaje(int comando) {
+        mensaje = comando;
         if (communication != null && communication.isConnected()) {
-            communication.write(new byte[]{(byte) mensaje}); // Envía el entero como byte
+            communication.write(new byte[]{(byte) mensaje});
             Toast.makeText(this, "Mensaje enviado: " + mensaje, Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "No hay conexión activa. Mensaje no enviado.", Toast.LENGTH_SHORT).show();
@@ -150,11 +142,10 @@ public class DeviceActivity extends AppCompatActivity {
 
     private void listenForSensorData() {
         if (communication != null) {
-            communication.setOnMessageReceivedListener(message -> {
-                runOnUiThread(() -> {
-                    sensorDataTextView.setText("Distancia: " + message + " cm");
-                });
-            });
+            communication.setOnMessageReceivedListener(message -> runOnUiThread(() -> {
+                sensorDataCocheraTextView.setText("Cochera: " + message );
+                sensorDataPatioTextView.setText("Patio: " + message + " % humedad");
+            }));
         }
     }
 
@@ -180,12 +171,6 @@ public class DeviceActivity extends AppCompatActivity {
     }
 
     private void discoverNewDevices() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "Permiso para escanear dispositivos denegado", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
         if (bluetoothAdapter.isDiscovering()) {
             bluetoothAdapter.cancelDiscovery();
         }
@@ -195,8 +180,7 @@ public class DeviceActivity extends AppCompatActivity {
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                String action = intent.getAction();
-                if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+                if (BluetoothDevice.ACTION_FOUND.equals(intent.getAction())) {
                     BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                     if (device != null && device.getName() != null) {
                         String deviceInfo = device.getName() + " (" + device.getAddress() + ")";
@@ -215,7 +199,7 @@ public class DeviceActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (bluetoothAdapter != null && bluetoothAdapter.isDiscovering()) {
+        if (bluetoothAdapter.isDiscovering()) {
             bluetoothAdapter.cancelDiscovery();
         }
         if (receiver != null) {
@@ -229,12 +213,10 @@ public class DeviceActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_PERMISSION_BT) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                discoverNewDevices();
-            } else {
-                Toast.makeText(this, "Permisos necesarios denegados", Toast.LENGTH_SHORT).show();
-            }
+        if (requestCode == REQUEST_PERMISSION_BT && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            discoverNewDevices();
+        } else {
+            Toast.makeText(this, "Permisos necesarios denegados", Toast.LENGTH_SHORT).show();
         }
     }
 }
